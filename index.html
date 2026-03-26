@@ -1,120 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoLens • Free Maps</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
 
-    body {
-      height: 100vh;
-      background: #0a0a0a;
-      overflow: hidden;
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
+<style>
+body {
+  margin: 0;
+  background: #111;
+  color: #eee;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
 
-    /* Background */
-    body::before {
-      content: "";
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      background: radial-gradient(circle at 30% 30%, #1a1a1a, transparent 40%),
-                  radial-gradient(circle at 70% 70%, #222, transparent 40%),
-                  radial-gradient(circle at 50% 50%, #141414, transparent 60%);
-      animation: flow 20s infinite linear;
-      z-index: -1;
-    }
+header {
+  padding: 1rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
 
-    @keyframes flow {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.1); }
-      100% { transform: rotate(360deg) scale(1); }
-    }
+#uploadBox {
+  margin: 2rem auto;
+  border: 2px dashed #444;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+#uploadBox:hover {
+  border-color: #666;
+}
 
-    /* Top bar */
-    .top-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 85px;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 60px;
-      z-index: 10;
-      border-bottom: 1px solid #111;
-    }
+#map {
+  width: 100%;
+  height: 350px;
+  margin-top: 1rem;
+  border-radius: 8px;
+}
 
-    /* Each item */
-    .skill {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #eaeaea;
-      font-size: 14px;
-      font-weight: 500;
-      opacity: 0.85;
-      transition: all 0.2s ease;
-    }
-
-    .skill:hover {
-      opacity: 1;
-      transform: translateY(-1px);
-    }
-
-    .skill img {
-      height: 26px;
-      object-fit: contain;
-    }
-
-    /* Roblox logos (clean white) */
-    .roblox-logo {
-      filter: brightness(0) invert(1);
-      height: 20px;
-    }
-
-    .roblox-studio {
-      height: 24px;
-    }
-
-  </style>
+#results {
+  text-align: left;
+  margin: 1rem auto;
+  padding: 1rem;
+  background: #222;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  word-break: break-word;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="top-bar">
+<header>📍 GeoLens (Free Maps Edition)</header>
 
-    <div class="skill">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
-      <span>Python</span>
-    </div>
+<div id="uploadBox" onclick="document.getElementById('imageInput').click();">
+  Drop or click to upload an image
+</div>
 
-    <div class="skill">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
-      <span>HTML5</span>
-    </div>
+<input
+  id="imageInput"
+  type="file"
+  accept="image/*"
+  style="display:none"
+  onchange="handleImage(this.files[0])"
+/>
 
-    <div class="skill">
-      <img class="roblox-studio" src="https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/1/6/c/16c497209dbd4b0288f790fb3d3da55db21f74d0.png" alt="Roblox Studio">
-      <span>Roblox Studio</span>
-    </div>
+<div id="results"></div>
+<div id="map"></div>
 
-    <div class="skill">
-      <img class="roblox-logo" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.svg" alt="Roblox">
-      <span>Roblox</span>
-    </div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 
-  </div>
+<script>
+let map;
+
+// initialize base map
+function initMap() {
+  map = L.map('map').setView([0, 0], 2);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+}
+
+function handleImage(file) {
+  document.getElementById('results').textContent = 'Scanning...';
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const blob = e.target.result;
+    window.EXIF.getData(blob, function () {
+      const lat = EXIF.getTag(this, "GPSLatitude");
+      const lng = EXIF.getTag(this, "GPSLongitude");
+
+      let out = '';
+
+      if (lat && lng) {
+        out += `📍 GPS Found: ${lat}, ${lng}\n`;
+        showMarker(lat, lng);
+      } else {
+        out += `🔍 No GPS metadata found.\n`;
+      }
+
+      document.getElementById('results').textContent = out;
+    });
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function showMarker(lat, lng) {
+  if (!map) initMap();
+
+  const coords = [
+    lat[0] + lat[1]/60 + lat[2]/3600,
+    lng[0] + lng[1]/60 + lng[2]/3600
+  ];
+
+  map.setView(coords, 10);
+
+  L.marker(coords).addTo(map)
+    .bindPopup("📍 Photo Location")
+    .openPopup();
+}
+
+initMap();
+</script>
 
 </body>
 </html>
