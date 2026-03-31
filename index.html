@@ -2,24 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Carbon Pinball</title>
+  <title>Carbon Arcade • Pinball</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
       --bg-main: #050505;
       --bg-panel: #0b0b0d;
-      --bg-panel-alt: #111118;
       --accent: #4da3ff;
       --accent-soft: #2b6bbf;
       --accent-glow: rgba(77, 163, 255, 0.35);
       --text-main: #f5f5f7;
       --text-soft: #a0a0aa;
       --border-subtle: #1a1a20;
-      --danger: #ff4d6a;
-      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.85);
-      --radius-lg: 18px;
-      --radius-md: 12px;
-      --radius-sm: 8px;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --radius-sm: 9px;
       --transition-fast: 160ms ease-out;
       --transition-med: 260ms ease-out;
       --transition-slow: 420ms ease-out;
@@ -39,7 +36,6 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "SF Pro Display", "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
-      overflow: hidden;
     }
 
     body {
@@ -49,8 +45,6 @@
       padding: 24px;
     }
 
-    /* Main shell */
-
     .app-shell {
       position: relative;
       width: min(1200px, 100%);
@@ -58,7 +52,7 @@
       background: radial-gradient(circle at top left, #181820 0, #050507 55%, #020203 100%);
       border-radius: 28px;
       border: 1px solid rgba(255, 255, 255, 0.03);
-      box-shadow: var(--shadow-soft);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
       display: grid;
       grid-template-rows: auto 1fr;
       overflow: hidden;
@@ -69,15 +63,13 @@
     @keyframes shellIntro {
       from {
         opacity: 0;
-        transform: translateY(18px) scale(0.985);
+      transform: translateY(18px) scale(0.985);
       }
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
     }
-
-    /* Top bar */
 
     .top-bar {
       display: flex;
@@ -210,11 +202,9 @@
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8), 0 0 18px rgba(77, 163, 255, 0.3);
     }
 
-    /* Layout */
-
     .content {
       display: grid;
-      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
       gap: 18px;
       padding: 16px 18px 18px 18px;
     }
@@ -222,101 +212,36 @@
     @media (max-width: 900px) {
       .content {
         grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 1.6fr) auto;
+        grid-template-rows: auto auto;
       }
     }
 
-    /* Game panel */
+    /* Left: library */
 
-    .game-panel {
-      position: relative;
+    .library-panel {
       border-radius: var(--radius-lg);
-      background: radial-gradient(circle at top, #14141c, #050507);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
-    }
-
-    .game-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 55%);
-      mix-blend-mode: soft-light;
-      opacity: 0.9;
-      pointer-events: none;
-    }
-
-    .game-inner-frame {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      padding: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .game-inner-border {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-radius: 24px;
-      background: radial-gradient(circle at top, #050509, #000);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
-      overflow: hidden;
-    }
-
-    .game-inner-border::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top, rgba(77, 163, 255, 0.12), transparent 60%);
-      opacity: 0.7;
-      pointer-events: none;
-    }
-
-    canvas#pinball {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    /* Side panel */
-
-    .side-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .card {
-      border-radius: var(--radius-md);
       background: linear-gradient(
         145deg,
         rgba(255, 255, 255, 0.02),
         rgba(255, 255, 255, 0.01)
       );
       border: 1px solid rgba(255, 255, 255, 0.04);
-      padding: 14px 16px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+      padding: 16px 16px 18px 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(18px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
-    .card-header {
+    .section-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 8px;
     }
 
-    .card-title {
-      font-size: 13px;
+    .section-title {
+      font-size: 12px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--text-soft);
@@ -333,761 +258,71 @@
       background: radial-gradient(circle at top, rgba(77, 163, 255, 0.18), transparent 60%);
     }
 
-    .score-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin-top: 4px;
+    .game-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      background: radial-gradient(circle at top left, #101018, #050507);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr);
+      gap: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform var(--transition-med), box-shadow var(--transition-med),
+        border-color var(--transition-med), background var(--transition-med);
     }
 
-    .score-label {
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-    }
-
-    .score-value {
-      font-size: 26px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--text-main);
-      text-shadow: 0 0 18px rgba(77, 163, 255, 0.4);
-    }
-
-    .score-sub {
-      font-size: 11px;
-      color: var(--text-soft);
-    }
-
-    .divider {
-      height: 1px;
-      margin: 10px 0;
-      background: linear-gradient(
-        to right,
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(
+        from 180deg,
+        rgba(77, 163, 255, 0.18),
         transparent,
-        rgba(255, 255, 255, 0.12),
+        transparent,
+        rgba(77, 163, 255, 0.18),
         transparent
       );
-      opacity: 0.6;
+      opacity: 0;
+      mix-blend-mode: screen;
+      transition: opacity var(--transition-med), transform var(--transition-med);
+      transform: translate3d(-10px, -10px, 0);
     }
 
-    .keys-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-      margin-top: 4px;
+    .game-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+      border-color: rgba(77, 163, 255, 0.7);
+      background: radial-gradient(circle at top left, #151524, #050507);
     }
 
-    .key-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      color: var(--text-soft);
+    .game-card:hover::before {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
     }
 
-    .keycap {
-      min-width: 26px;
-      padding: 4px 6px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: radial-gradient(circle at top, #181820, #050507);
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-main);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.8);
-    }
-
-    .hint {
-      font-size: 11px;
-      color: var(--text-soft);
-      margin-top: 6px;
-      line-height: 1.5;
-    }
-
-    .hint strong {
-      font-weight: 500;
-      color: var(--text-main);
-    }
-
-    .status-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 4px;
-      font-size: 11px;
-      color: var(--text-soft);
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent-glow);
-    }
-
-    .status-dot.paused {
-      background: var(--danger);
-      box-shadow: 0 0 12px rgba(255, 77, 106, 0.4);
-    }
-
-    .mini-label {
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-    }
-
-    .mini-value {
-      font-size: 11px;
-      color: var(--text-main);
-    }
-
-    .footer-note {
-      font-size: 10px;
-      color: var(--text-soft);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-top: 4px;
-    }
-
-    .footer-note span {
-      color: var(--accent);
-    }
-
-    /* Overlay messages */
-
-    .overlay-message {
-      position: absolute;
-      inset: 0;
+    .game-thumb {
+      border-radius: 16px;
+      background: radial-gradient(circle at center, #ff00ff, #5500aa, #050007);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      pointer-events: none;
     }
 
-    .overlay-inner {
-      padding: 12px 18px;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.96));
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity var(--transition-med), transform var(--transition-med);
-    }
-
-    .overlay-inner.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .overlay-title {
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-main);
-    }
-
-    .overlay-sub {
-      font-size: 11px;
-      color: var(--text-soft);
-    }
-
-    .overlay-sub span {
-      color: var(--accent);
-    }
-  </style>
-</head>
-<body>
-  <div class="app-shell">
-    <header class="top-bar">
-      <div class="window-controls">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-      <div class="title-area">
-        <div class="title-main">Carbon Pinball</div>
-        <div class="title-sub">Single Table • Focus Mode</div>
-      </div>
-      <div class="top-actions">
-        <div class="pill">
-          Controls
-          <span class="key">&lt; / A</span>
-          <span class="key">&gt; / D</span>
-        </div>
-        <button class="btn-primary" id="resetBtn">Reset Table</button>
-      </div>
-    </header>
-
-    <main class="content">
-      <section class="game-panel">
-        <div class="game-inner-frame">
-          <div class="game-inner-border">
-            <canvas id="pinball"></canvas>
-            <div class="overlay-message">
-              <div class="overlay-inner" id="overlay">
-                <div class="overlay-title" id="overlayTitle">Press Space</div>
-                <div class="overlay-sub" id="overlaySub">
-                  to launch the ball • use <span>&lt; / A</span> and <span>&gt; / D</span> for flippers
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <aside class="side-panel">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Score</div>
-            <div class="badge">Session</div>
-          </div>
-          <div class="score-row">
-            <div class="score-value" id="scoreDisplay">000000</div>
-          </div>
-          <div class="score-sub" id="ballDisplay">Ball 1 of 3</div>
-          <div class="divider"></div>
-          <div class="status-row">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <div class="status-dot" id="statusDot"></div>
-              <span class="mini-label" id="statusLabel">Ready</span>
-            </div>
-            <div style="text-align:right;">
-              <div class="mini-label">Mode</div>
-              <div class="mini-value">Classic Table</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Controls</div>
-            <div class="badge">Keyboard</div>
-          </div>
-          <div class="keys-grid">
-            <div class="key-row">
-              <div class="keycap">&lt;</div>
-              <span>Left flipper</span>
-            </div>
-            <div class="key-row">
-              <div class="keycap">&gt;</div>
-              <span>Right flipper</span>
-            </div>
-            <div class="key-row">
-              <div class="keycap">A</div>
-              <span>Left flipper</span>
-            </div>
-            <div class="key-row">
-              <div class="keycap">D</div>
-              <span>Right flipper</span>
-            </div>
-          </div>
-          <div class="hint">
-            <strong>Space</strong> launches the ball when it is in the plunger lane.  
-            <strong>R</strong> also resets the table.
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Session</div>
-            <div class="badge">Minimal UI</div>
-          </div>
-          <div class="status-row">
-            <div>
-              <div class="mini-label">Balls</div>
-              <div class="mini-value" id="ballsLeftDisplay">3 remaining</div>
-            </div>
-            <div style="text-align:right;">
-              <div class="mini-label">Style</div>
-              <div class="mini-value">Carbon Black</div>
-            </div>
-          </div>
-          <div class="footer-note">
-            Designed for <span>focus</span> • no menus, no clutter
-          </div>
-        </div>
-      </aside>
-    </main>
-  </div>
-
-  <script>
-    // Basic pinball-style physics (not a 1:1 copy of any commercial game)
-
-    const canvas = document.getElementById("pinball");
-    const ctx = canvas.getContext("2d");
-
-    let width, height, scale;
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      width = rect.width;
-      height = rect.height;
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      scale = Math.min(width / 420, height / 720);
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    // Game state
-    let score = 0;
-    let balls = 3;
-    let ball;
-    let flippers = [];
-    let bumpers = [];
-    let walls = [];
-    let running = false;
-    let ballInPlunger = true;
-    let lastTime = 0;
-
-    const gravity = 900; // px/s^2
-    const restitution = 0.82;
-
-    const scoreDisplay = document.getElementById("scoreDisplay");
-    const ballDisplay = document.getElementById("ballDisplay");
-    const ballsLeftDisplay = document.getElementById("ballsLeftDisplay");
-    const statusDot = document.getElementById("statusDot");
-    const statusLabel = document.getElementById("statusLabel");
-    const overlay = document.getElementById("overlay");
-    const overlayTitle = document.getElementById("overlayTitle");
-    const overlaySub = document.getElementById("overlaySub");
-    const resetBtn = document.getElementById("resetBtn");
-
-    function formatScore(n) {
-      return n.toString().padStart(6, "0");
-    }
-
-    function updateUI() {
-      scoreDisplay.textContent = formatScore(score);
-      ballDisplay.textContent = `Ball ${4 - balls} of 3`;
-      ballsLeftDisplay.textContent = `${balls} remaining`;
-      statusDot.classList.toggle("paused", !running);
-      statusLabel.textContent = running ? "Playing" : "Ready";
-    }
-
-    function showOverlay(title, sub) {
-      overlayTitle.textContent = title;
-      overlaySub.innerHTML = sub;
-      overlay.classList.add("visible");
-    }
-
-    function hideOverlay() {
-      overlay.classList.remove("visible");
-    }
-
-    // Coordinate helpers (table coordinates ~ 420x720)
-    function tx(x) {
-      return x * scale + (width - 420 * scale) / 2;
-    }
-    function ty(y) {
-      return y * scale + (height - 720 * scale) / 2;
-    }
-
-    // Entities
-    function createBall() {
-      ball = {
-        x: 360,
-        y: 640,
-        vx: 0,
-        vy: 0,
-        r: 8,
-      };
-      ballInPlunger = true;
-    }
-
-    function createFlippers() {
-      flippers = [
-        {
-          side: "left",
-          x: 170,
-          y: 620,
-          length: 70,
-          angleRest: -0.35 * Math.PI,
-          angleActive: -0.05 * Math.PI,
-          angle: -0.35 * Math.PI,
-          angularVel: 0,
-          pressed: false,
-        },
-        {
-          side: "right",
-          x: 250,
-          y: 620,
-          length: 70,
-          angleRest: 1.35 * Math.PI,
-          angleActive: 1.05 * Math.PI,
-          angle: 1.35 * Math.PI,
-          angularVel: 0,
-          pressed: false,
-        },
-      ];
-    }
-
-    function createBumpers() {
-      bumpers = [
-        { x: 160, y: 260, r: 18, score: 100 },
-        { x: 260, y: 220, r: 18, score: 100 },
-        { x: 210, y: 180, r: 18, score: 150 },
-      ];
-    }
-
-    function createWalls() {
-      walls = [];
-
-      // Outer walls (simple polygon segments)
-      const wallPoints = [
-        [120, 120, 120, 640],
-        [120, 120, 300, 120],
-        [300, 120, 300, 640],
-      ];
-
-      wallPoints.forEach(([x1, y1, x2, y2]) => {
-        walls.push({ x1, y1, x2, y2 });
-      });
-
-      // Bottom gap walls
-      walls.push({ x1: 120, y1: 640, x2: 180, y2: 700 });
-      walls.push({ x1: 300, y1: 640, x2: 240, y2: 700 });
-    }
-
-    function resetGame() {
-      score = 0;
-      balls = 3;
-      createBall();
-      createFlippers();
-      createBumpers();
-      createWalls();
-      running = false;
-      showOverlay(
-        "Press Space",
-        'to launch the ball • use <span>&lt; / A</span> and <span>&gt; / D</span> for flippers'
+    .game-thumb::after {
+      content: "";
+      position: absolute;
+      width: 140%;
+      height: 40%;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
       );
-      updateUI();
-    }
-
-    resetGame();
-
-    // Physics helpers
-    function reflectBall(normalX, normalY) {
-      const dot = ball.vx * normalX + ball.vy * normalY;
-      ball.vx -= 2 * dot * normalX;
-      ball.vy -= 2 * dot * normalY;
-      ball.vx *= restitution;
-      ball.vy *= restitution;
-    }
-
-    function handleWallCollisions(dt) {
-      for (const w of walls) {
-        const x1 = w.x1;
-        const y1 = w.y1;
-        const x2 = w.x2;
-        const y2 = w.y2;
-
-        const dx = x2 - x1;
-        const dy = y2 - y1;
-        const length = Math.hypot(dx, dy);
-        if (length === 0) continue;
-
-        const nx = -dy / length;
-        const ny = dx / length;
-
-        const px = ball.x - x1;
-        const py = ball.y - y1;
-        const dist = px * nx + py * ny;
-
-        if (dist < ball.r && dist > -ball.r) {
-          const proj = px * (dx / length) + py * (dy / length);
-          if (proj >= -ball.r && proj <= length + ball.r) {
-            ball.x -= (dist - ball.r) * nx;
-            ball.y -= (dist - ball.r) * ny;
-            reflectBall(nx, ny);
-          }
-        }
-      }
-
-      // Simple floor kill zone
-      if (ball.y > 720 + 40) {
-        balls--;
-        if (balls <= 0) {
-          running = false;
-          showOverlay("Game Over", "Press <span>R</span> or click Reset to start a new session");
-        } else {
-          createBall();
-          running = false;
-          showOverlay("Next Ball", "Press <span>Space</span> to launch");
-        }
-        updateUI();
-      }
-    }
-
-    function handleBumperCollisions() {
-      for (const b of bumpers) {
-        const dx = ball.x - b.x;
-        const dy = ball.y - b.y;
-        const dist = Math.hypot(dx, dy);
-        const minDist = ball.r + b.r;
-        if (dist < minDist && dist > 0) {
-          const nx = dx / dist;
-          const ny = dy / dist;
-          ball.x = b.x + nx * minDist;
-          ball.y = b.y + ny * minDist;
-          reflectBall(nx, ny);
-          ball.vx += nx * 120;
-          ball.vy += ny * 120;
-          score += b.score;
-          updateUI();
-        }
-      }
-    }
-
-    function handleFlipperPhysics(dt) {
-      const stiffness = 18;
-      const damping = 12;
-
-      for (const f of flippers) {
-        const target = f.pressed ? f.angleActive : f.angleRest;
-        const diff = target - f.angle;
-        f.angularVel += diff * stiffness * dt;
-        f.angularVel *= Math.exp(-damping * dt);
-        f.angle += f.angularVel * dt;
-
-        // Ball collision with flipper segment
-        const x1 = f.x;
-        const y1 = f.y;
-        const x2 = f.x + Math.cos(f.angle) * f.length;
-        const y2 = f.y + Math.sin(f.angle) * f.length;
-
-        const dx = x2 - x1;
-        const dy = y2 - y1;
-        const length = Math.hypot(dx, dy);
-        if (length === 0) continue;
-
-        const ux = dx / length;
-        const uy = dy / length;
-
-        const px = ball.x - x1;
-        const py = ball.y - y1;
-        const proj = px * ux + py * uy;
-        if (proj >= 0 && proj <= length) {
-          const closestX = x1 + proj * ux;
-          const closestY = y1 + proj * uy;
-          const dist = Math.hypot(ball.x - closestX, ball.y - closestY);
-          if (dist < ball.r + 2) {
-            const nx = (ball.x - closestX) / (dist || 1);
-            const ny = (ball.y - closestY) / (dist || 1);
-            ball.x = closestX + nx * (ball.r + 2);
-            ball.y = closestY + ny * (ball.r + 2);
-            reflectBall(nx, ny);
-
-            // Add some kick when flipper is moving
-            const flipperSpeed = f.angularVel * f.length;
-            ball.vx += -ny * flipperSpeed * 0.6;
-            ball.vy += nx * flipperSpeed * 0.6;
-          }
-        }
-      }
-    }
-
-    function update(dt) {
-      if (!running) return;
-
-      if (!ballInPlunger) {
-        ball.vy += gravity * dt;
-      }
-
-      ball.x += ball.vx * dt;
-      ball.y += ball.vy * dt;
-
-      handleWallCollisions(dt);
-      handleBumperCollisions();
-      handleFlipperPhysics(dt);
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, width, height);
-
-      // Table background
-      ctx.save();
-      ctx.translate((width - 420 * scale) / 2, (height - 720 * scale) / 2);
-      ctx.scale(scale, scale);
-
-      const grd = ctx.createLinearGradient(0, 0, 0, 720);
-      grd.addColorStop(0, "#05050a");
-      grd.addColorStop(0.4, "#050509");
-      grd.addColorStop(1, "#000000");
-      ctx.fillStyle = grd;
-      ctx.fillRect(0, 0, 420, 720);
-
-      // Soft glow
-      const glow = ctx.createRadialGradient(210, 180, 20, 210, 180, 260);
-      glow.addColorStop(0, "rgba(77,163,255,0.35)");
-      glow.addColorStop(1, "transparent");
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, 420, 360);
-
-      // Walls
-      ctx.strokeStyle = "rgba(255,255,255,0.18)";
-      ctx.lineWidth = 4;
-      ctx.lineCap = "round";
-      ctx.beginPath();
-      for (const w of walls) {
-        ctx.moveTo(w.x1, w.y1);
-        ctx.lineTo(w.x2, w.y2);
-      }
-      ctx.stroke();
-
-      // Bumpers
-      for (const b of bumpers) {
-        const g = ctx.createRadialGradient(b.x - 6, b.y - 6, 4, b.x, b.y, b.r + 6);
-        g.addColorStop(0, "#4da3ff");
-        g.addColorStop(0.5, "#1b3a66");
-        g.addColorStop(1, "#050509");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.strokeStyle = "rgba(255,255,255,0.35)";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, b.r - 3, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      // Flippers
-      for (const f of flippers) {
-        const x1 = f.x;
-        const y1 = f.y;
-        const x2 = f.x + Math.cos(f.angle) * f.length;
-        const y2 = f.y + Math.sin(f.angle) * f.length;
-
-        ctx.strokeStyle = f.pressed ? "#4da3ff" : "rgba(255,255,255,0.7)";
-        ctx.lineWidth = 10;
-        ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-
-        ctx.strokeStyle = "rgba(0,0,0,0.8)";
-        ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-      }
-
-      // Ball
-      if (ball) {
-        ctx.save();
-        ctx.shadowColor = "rgba(255,255,255,0.5)";
-        ctx.shadowBlur = 12;
-        const g2 = ctx.createRadialGradient(
-          ball.x - 4,
-          ball.y - 4,
-          2,
-          ball.x,
-          ball.y,
-          ball.r + 4
-        );
-        g2.addColorStop(0, "#ffffff");
-        g2.addColorStop(0.4, "#d0d0d8");
-        g2.addColorStop(1, "#6b6b75");
-        ctx.fillStyle = g2;
-        ctx.beginPath();
-        ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-
-      ctx.restore();
-    }
-
-    function loop(timestamp) {
-      const dt = (timestamp - lastTime) / 1000 || 0;
-      lastTime = timestamp;
-      update(dt);
-      draw();
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-
-    // Input
-    const keys = new Set();
-
-    function setFlipper(side, pressed) {
-      const f = flippers.find((fl) => fl.side === side);
-      if (f) f.pressed = pressed;
-    }
-
-    window.addEventListener("keydown", (e) => {
-      if (e.repeat) return;
-      keys.add(e.key);
-
-      if (e.key === "ArrowLeft" || e.key === "<" || e.key === ",") {
-        setFlipper("left", true);
-      }
-      if (e.key === "ArrowRight" || e.key === ">" || e.key === ".") {
-        setFlipper("right", true);
-      }
-      if (e.key.toLowerCase() === "a") {
-        setFlipper("left", true);
-      }
-      if (e.key.toLowerCase() === "d") {
-        setFlipper("right", true);
-      }
-
-      if (e.key === " " || e.code === "Space") {
-        if (ballInPlunger) {
-          ballInPlunger = false;
-          ball.vx = -80 + Math.random() * 40;
-          ball.vy = -520;
-          running = true;
-          hideOverlay();
-          updateUI();
-        }
-      }
-
-      if (e.key.toLowerCase() === "r") {
-        resetGame();
-      }
-    });
-
-    window.addEventListener("keyup", (e) => {
-      keys.delete(e.key);
-
-      if (e.key === "ArrowLeft" || e.key === "<" || e.key === ",") {
-        setFlipper("left", false);
-      }
-      if (e.key === "ArrowRight" || e.key === ">" || e.key === ".") {
-        setFlipper("right", false);
-      }
-      if (e.key.toLowerCase() === "a") {
-        setFlipper("left", false);
-      }
-      if (e.key.toLowerCase() === "d") {
-        setFlipper("right", false);
-      }
-    });
-
-    resetBtn.addEventListener("click", () => {
-      resetGame();
-    });
-
-    // Initial overlay animation
-    setTimeout(() => {
-      overlay.classList.add("visible");
-    }, 200);
-  </script>
-</body>
-</html>
+      transform: translateX(-120
