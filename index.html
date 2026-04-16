@@ -1,487 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intelligence Wallet | Premium Asset Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-obsidian: #0a0a0a;
-            --purple-deep: #350048;
-            --purple-glow: #8a2be2;
-            --purple-mid: #5d326c;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #ffffff;
-            --text-dim: #a0a0a0;
-            --neon-flicker: #ff1f71;
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Void Wallet</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-        body {
-            background-color: var(--bg-obsidian);
-            background-image: 
-                radial-gradient(circle at 20% 30%, var(--purple-deep) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, #1a0033 0%, transparent 50%);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* --- Header: OathNet Style --- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-       .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -1px;
-            background: linear-gradient(90deg, #fff, var(--purple-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-       .logo-icon {
-            width: 30px;
-            height: 30px;
-            background: var(--purple-glow);
-            border-radius: 8px;
-            box-shadow: 0 0 15px var(--purple-glow);
-            animation: pulse 3s infinite;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        nav a:hover {
-            color: var(--text-main);
-            text-shadow: 0 0 8px var(--purple-glow);
-        }
-
-       .btn-connect {
-            padding: 0.7rem 1.5rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--purple-glow);
-            border-radius: 30px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: var(--transition);
-            box-shadow: inset 0 0 10px rgba(138, 43, 226, 0.2);
-        }
-
-       .btn-connect:hover {
-            background: var(--purple-glow);
-            box-shadow: 0 0 25px var(--purple-glow);
-            transform: translateY(-2px);
-        }
-
-        /* --- Hero Section --- */
-       .hero {
-            text-align: center;
-            padding: 4rem 5% 2rem;
-        }
-
-       .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-        }
-
-       .portfolio-value {
-            font-size: 4.5rem;
-            font-weight: 700;
-            margin: 1rem 0;
-            text-shadow: 0 0 30px rgba(138, 43, 226, 0.4);
-        }
-
-       .change-indicator {
-            font-size: 1.1rem;
-            color: #00ffaa;
-            background: rgba(0, 255, 170, 0.1);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-        }
-
-        /* --- Dashboard Grid --- */
-       .dashboard {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 2rem;
-            padding: 2rem 5% 5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-       .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-       .card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.8s;
-        }
-
-       .card:hover::before {
-            left: 100%;
-        }
-
-       .card:hover {
-            border-color: rgba(138, 43, 226, 0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        h2 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* --- Assets List: Exodus Style --- */
-       .asset-row {
-            display: grid;
-            grid-template-columns: 50px 1fr 120px 150px 100px;
-            align-items: center;
-            padding: 1.2rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-       .asset-row:hover {
-            background: rgba(255,255,255,0.03);
-            padding-left: 10px;
-            padding-right: 10px;
-            border-radius: 12px;
-        }
-
-       .asset-icon {
-            width: 35px; height: 35px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 0.8rem;
-        }
-
-       .asset-info.name { font-weight: 600; display: block; }
-       .asset-info.symbol { color: var(--text-dim); font-size: 0.8rem; }
-
-       .asset-price { text-align: right; font-weight: 500; }
-       .asset-balance { text-align: right; }
-       .asset-balance.fiat { display: block; font-weight: 600; }
-       .asset-balance.crypto { color: var(--text-dim); font-size: 0.8rem; }
-
-       .sparkline { width: 100px; height: 30px; }
-
-        /* --- Swap Module --- */
-       .swap-container {
-            display: flex; flex-direction: column; gap: 1rem;
-        }
-
-       .swap-input-box {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.2rem;
-        }
-
-       .swap-input-box label { color: var(--text-dim); font-size: 0.8rem; margin-bottom: 0.5rem; display: block; }
-        
-       .swap-row { display: flex; justify-content: space-between; align-items: center; }
-        
-       .swap-row input {
-            background: transparent; border: none; color: #fff;
-            font-size: 1.5rem; font-weight: 600; width: 60%; outline: none;
-        }
-
-       .token-select {
-            background: var(--purple-deep); padding: 0.5rem 1rem;
-            border-radius: 12px; font-weight: 600; cursor: pointer;
-        }
-
-       .swap-divider {
-            height: 40px; width: 40px; background: var(--purple-mid);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            margin: -25px auto; position: relative; z-index: 2;
-            border: 4px solid var(--bg-obsidian); cursor: pointer;
-            transition: var(--transition);
-        }
-
-       .swap-divider:hover { transform: rotate(180deg) scale(1.1); background: var(--purple-glow); }
-
-       .btn-action {
-            width: 100%; padding: 1.2rem; border-radius: 16px;
-            border: none; background: var(--purple-glow); color: #fff;
-            font-size: 1rem; font-weight: 700; cursor: pointer;
-            margin-top: 1rem; transition: var(--transition);
-        }
-
-       .btn-action:hover {
-            box-shadow: 0 0 30px var(--purple-glow);
-            filter: brightness(1.2);
-        }
-
-        /* --- Animations --- */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 10px var(--purple-glow); }
-            50% { box-shadow: 0 0 25px var(--purple-glow); }
-            100% { box-shadow: 0 0 10px var(--purple-glow); }
-        }
-
-       .neon-flicker {
-            animation: flicker 2s infinite;
-        }
-
-        @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
-            20%, 24%, 55% { opacity: 0.4; }
-        }
-
-        /* --- Donut Chart Visualization --- */
-       .donut-container {
-            height: 250px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-       .donut-hole {
-            width: 150px; height: 150px;
-            background: var(--bg-obsidian);
-            border-radius: 50%;
-            position: absolute;
-            display: flex; align-items: center; justify-content: center;
-            flex-direction: column;
-            z-index: 5;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-           .dashboard { grid-template-columns: 1fr; }
-           .portfolio-value { font-size: 3rem; }
-        }
-    </style>
+<style>
+:root{
+--bg:#07080c;
+--card:#111317;
+--border:#1c1f24;
+--text:#f1f1f1;
+--muted:#7a7a7a;
+--accent:#7c3aed;
+}
+*{box-sizing:border-box;margin:0}
+body{
+font-family:Inter,sans-serif;
+background:var(--bg);
+color:var(--text);
+padding:30px;
+}
+h1{font-size:34px;margin-bottom:5px}
+p{color:var(--muted)}
+.grid{
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:20px;
+margin-top:20px;
+}
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;
+padding:18px;
+}
+.asset{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid var(--border);
+cursor:pointer;
+}
+input,select,button{
+width:100%;
+padding:10px;
+margin-top:10px;
+background:#0d0f13;
+border:1px solid var(--border);
+color:white;
+border-radius:8px;
+}
+.activity{
+font-size:13px;
+border-bottom:1px solid var(--border);
+padding:6px 0;
+color:var(--muted);
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <div class="logo">
-            <div class="logo-icon"></div>
-            OATHNET WALLET
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">Portfolio</a></li>
-                <li><a href="#">Exchange</a></li>
-                <li><a href="#">NFTs</a></li>
-                <li><a href="#">Intelligence</a></li>
-            </ul>
-        </nav>
-        <button class="btn-connect">0x7F...4E21</button>
-    </header>
+<h1 id="balance">$0</h1>
+<p>Total Balance</p>
 
-    <section class="hero">
-        <p style="color: var(--text-dim); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px;">Total Balance</p>
-        <div class="portfolio-value" id="total-balance">$142,654.20</div>
-        <span class="change-indicator">+$2,451.12 (1.75%) today</span>
-    </section>
+<div class="grid">
+<div class="card">
+<h3>Assets</h3>
+<div id="assets"></div>
+</div>
 
-    <div class="dashboard">
-        <div class="card">
-            <h2>Assets</h2>
-            <div id="asset-list">
-                </div>
-        </div>
+<div class="card">
+<h3>Actions</h3>
 
-        <div style="display: flex; flex-direction: column; gap: 2rem;">
-            
-            <div class="card" style="text-align: center;">
-                <h2>Allocation</h2>
-                <div class="donut-container">
-                    <div class="donut-hole">
-                        <span style="font-size: 0.8rem; color: var(--text-dim);">BTC Weight</span>
-                        <span style="font-size: 1.4rem; font-weight: 700;">64.2%</span>
-                    </div>
-                    <svg width="220" height="220" viewBox="0 0 42 42">
-                        <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#1a0033" stroke-width="4"></circle>
-                        <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#8a2be2" stroke-width="4" stroke-dasharray="64.2 35.8" stroke-dashoffset="25"></circle>
-                        <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#f7931a" stroke-width="4" stroke-dasharray="20 80" stroke-dashoffset="85"></circle>
-                    </svg>
-                </div>
-            </div>
+<input id="amount" placeholder="Amount">
 
-            <div class="card">
-                <h2 class="neon-flicker">Swap Assets</h2>
-                <div class="swap-container">
-                    <div class="swap-input-box">
-                        <label>From</label>
-                        <div class="swap-row">
-                            <input type="number" id="swap-from-amount" value="0.5" step="0.01">
-                            <div class="token-select">BTC</div>
-                        </div>
-                    </div>
-                    
-                    <div class="swap-divider">
-                        <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"/></svg>
-                    </div>
+<div class="row">
+<select id="from"></select>
+<select id="to"></select>
+</div>
 
-                    <div class="swap-input-box">
-                        <label>To (Estimated)</label>
-                        <div class="swap-row">
-                            <input type="number" id="swap-to-amount" value="8.42" readonly>
-                            <div class="token-select">ETH</div>
-                        </div>
-                    </div>
+<button onclick="swap()">Swap</button>
+<button onclick="send()">Send</button>
+<button onclick="receive()">Receive</button>
 
-                    <button class="btn-action" onclick="simulateSwap()">Exchange Now</button>
-                    <p style="font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-top: 10px;">Fee: 0.5% | Protected by OathNet Intel</p>
-                </div>
-            </div>
+<p>Output: <span id="output">0</span></p>
 
-        </div>
-    </div>
+</div>
+</div>
 
-    <script>
-        // --- Mock Data & Engine ---
-        const assets = },
-            { name: "Ethereum", symbol: "ETH", price: 3450.12, balance: 15.42, color: "#627eea", history: [32, 33, 31, 34, 35, 34, 36] },
-            { name: "Solana", symbol: "SOL", price: 145.80, balance: 120.5, color: "#14f195", history:  },
-            { name: "Chainlink", symbol: "LINK", price: 18.25, balance: 450.0, color: "#2a5ada", history: [15, 16, 17, 18, 17, 19, 18] }
-        ];
+<div class="card" style="margin-top:20px">
+<h3>Activity</h3>
+<div id="activity"></div>
+</div>
 
-        function generateSparkline(data) {
-            const min = Math.min(...data);
-            const max = Math.max(...data);
-            const range = max - min;
-            const width = 100;
-            const height = 30;
-            
-            const points = data.map((d, i) => {
-                const x = (i / (data.length - 1)) * width;
-                const y = height - ((d - min) / range) * height;
-                return `${x},${y}`;
-            }).join(' ');
+<script>
+const prices={BTC:67000,ETH:3500,SOL:180,USDC:1};
 
-            return `<svg class="sparkline"><polyline points="${points}" fill="none" stroke="var(--purple-glow)" stroke-width="2" stroke-linecap="round" /></svg>`;
-        }
+let wallet={
+BTC:0.5,
+ETH:3,
+SOL:10,
+USDC:2000
+};
 
-        function renderAssets() {
-            const list = document.getElementById('asset-list');
-            list.innerHTML = '';
-            let total = 0;
+function total(){
+let t=0;
+for(let c in wallet){t+=wallet[c]*prices[c]}
+document.getElementById("balance").innerText="$"+t.toFixed(2);
+}
 
-            assets.forEach(asset => {
-                const fiatValue = asset.price * asset.balance;
-                total += fiatValue;
+function renderAssets(){
+let el=document.getElementById("assets");
+el.innerHTML="";
+for(let c in wallet){
+let val=wallet[c]*prices[c];
+el.innerHTML+=`
+<div class="asset">
+<span>${c} (${wallet[c].toFixed(4)})</span>
+<span>$${val.toFixed(2)}</span>
+</div>`;
+}
+}
 
-                const row = document.createElement('div');
-                row.className = 'asset-row';
-                row.innerHTML = `
-                    <div class="asset-icon" style="background: ${asset.color}22; color: ${asset.color}">${asset.symbol}</div>
-                    <div class="asset-info">
-                        <span class="name">${asset.name}</span>
-                        <span class="symbol">${asset.symbol}</span>
-                    </div>
-                    <div class="asset-price">$${asset.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
-                    <div class="asset-balance">
-                        <span class="fiat">$${fiatValue.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-                        <span class="crypto">${asset.balance} ${asset.symbol}</span>
-                    </div>
-                    <div class="spark-container">${generateSparkline(asset.history)}</div>
-                `;
-                list.appendChild(row);
-            });
+function loadSelects(){
+let f=document.getElementById("from");
+let t=document.getElementById("to");
+for(let c in wallet){
+f.innerHTML+=`<option>${c}</option>`;
+t.innerHTML+=`<option>${c}</option>`;
+}
+}
 
-            document.getElementById('total-balance').innerText = `$${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-        }
+function log(txt){
+document.getElementById("activity").innerHTML=
+`<div class="activity">${txt}</div>`+
+document.getElementById("activity").innerHTML;
+}
 
-        // --- Price Simulation: Random Walk ---
-        function simulatePrices() {
-            assets.forEach(asset => {
-                const change = 1 + (Math.random() * 0.002 - 0.001); // 0.1% volatility
-                asset.price *= change;
-                asset.history.shift();
-                asset.history.push(asset.price / 1000); // normalized for sparkline
-            });
-            renderAssets();
-            updateSwap();
-        }
+function swap(){
+let amt=parseFloat(amount.value);
+let f=from.value;
+let t=to.value;
+if(wallet[f]<amt)return;
+let usd=amt*prices[f];
+let out=usd/prices[t];
+wallet[f]-=amt;
+wallet[t]+=out;
+output.innerText=out.toFixed(4);
+log(`Swapped ${amt} ${f} → ${out.toFixed(4)} ${t}`);
+refresh();
+}
 
-        function updateSwap() {
-            const amount = document.getElementById('swap-from-amount').value;
-            const btcPrice = assets.price;
-            const ethPrice = assets.[1]price;
-            const result = (amount * btcPrice) / ethPrice * 0.995; // 0.5% fee
-            document.getElementById('swap-to-amount').value = result.toFixed(4);
-        }
+function send(){
+let amt=parseFloat(amount.value);
+let f=from.value;
+if(wallet[f]<amt)return;
+wallet[f]-=amt;
+log(`Sent ${amt} ${f}`);
+refresh();
+}
 
-        function simulateSwap() {
-            const btn = document.querySelector('.btn-action');
-            const originalText = btn.innerText;
-            btn.innerText = "Processing Transaction...";
-            btn.style.background = "var(--neon-flicker)";
-            
-            setTimeout(() => {
-                btn.innerText = "Swap Successful!";
-                btn.style.background = "#00ffaa";
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.background = "var(--purple-glow)";
-                }, 2000);
-            }, 1500);
-        }
+function receive(){
+let amt=parseFloat(amount.value);
+let t=to.value;
+wallet[t]+=amt;
+log(`Received ${amt} ${t}`);
+refresh();
+}
 
-        // Initialize
-        renderAssets();
-        setInterval(simulatePrices, 3000);
-        document.getElementById('swap-from-amount').addEventListener('input', updateSwap);
+function simulate(){
+for(let c in prices){
+prices[c]*=(1+(Math.random()-0.5)/40);
+}
+refresh();
+}
 
-    </script>
+function refresh(){
+renderAssets();
+total();
+}
+
+setInterval(simulate,4000);
+
+loadSelects();
+refresh();
+</script>
+
 </body>
 </html>
